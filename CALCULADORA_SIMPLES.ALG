@@ -1,47 +1,75 @@
-algoritmo "Calculadora_Simples"
+algoritmo "Calculadora_Melhorada"
+// Autor: Ricardo Fiorini Cuato
+// Data: 12/11/2025
+// Descri√ß√£o: Calculadora b√°sica com loop e tratamento de erros.
+
 var
-    num1, num2, resultado: real
-    operacao: caractere
+   num1, num2, resultado: real
+   operacao, continuar: caractere
+   erroOcorreu: logico // Flag para controlar se um erro aconteceu
 
 inicio
-    // Exibe uma mensagem para o usu·rio informar o primeiro n˙mero
-    escreval("Digite o primeiro n˙mero: ")
-    leia(num1)
+   // Loop principal do programa
+   repita
+      // Inicializa√ß√£o e limpeza
+      limpatela()
+      erroOcorreu := falso // Reseta a flag de erro a cada nova opera√ß√£o
+      
+      escreval("--- Calculadora Simples em Portugol ---")
+      escreval("---------------------------------------")
 
-    // Exibe uma mensagem para o usu·rio informar o segundo n˙mero
-    escreval("Digite o segundo n˙mero: ")
-    leia(num2)
+      // Solicita as entradas do usu√°rio
+      escreval("Digite o primeiro n√∫mero:")
+      leia(num1)
 
-    // Exibe uma mensagem para o usu·rio escolher a operaÁ„o
-    escreval("Escolha a operaÁ„o (+, -, *, /): ")
-    leia(operacao)
+      escreval("Escolha a opera√ß√£o (+, -, *, /):")
+      leia(operacao)
 
-    // Estrutura de decis„o para realizar a operaÁ„o escolhida
-    se operacao = "+" entao
-        resultado := num1 + num2
-    senao
-        se operacao = "-" entao
+      escreval("Digite o segundo n√∫mero:")
+      leia(num2)
+
+      // Processamento usando 'escolha' para melhor legibilidade
+      escolha operacao
+         caso "+"
+            resultado := num1 + num2
+         
+         caso "-"
             resultado := num1 - num2
-        senao
-            se operacao = "*" entao
-                resultado := num1 * num2
+         
+         caso "*"
+            resultado := num1 * num2
+         
+         caso "/"
+            // Tratamento de erro para divis√£o por zero
+            se num2 = 0 entao
+               escreval("Erro! Divis√£o por zero n√£o √© permitida.")
+               erroOcorreu := verdadeiro
             senao
-                se operacao = "/" entao
-                    // Verifica se o divisor È diferente de zero
-                    se num2 <> 0 entao
-                        resultado := num1 / num2
-                    senao
-                        escreval("Erro! Divis„o por zero n„o È permitida.")
-                        interrompa
-                    fimse
-                senao
-                    escreval("OperaÁ„o inv·lida.")
-                    interrompa
-                fimse
+               resultado := num1 / num2
             fimse
-        fimse
-    fimse
+         
+         // Tratamento para operadores inv√°lidos
+         caso contrario
+            escreval("Erro! Opera√ß√£o '", operacao, "' inv√°lida.")
+            erroOcorreu := verdadeiro
+      fimescolha
 
-    // Exibe o resultado
-    escreval("O resultado da operaÁ„o È: ", resultado)
+      // Exibe o resultado apenas se nenhum erro ocorreu
+      escreval("---------------------------------------")
+      se nao(erroOcorreu) entao
+         escreval("Resultado: ", num1, " ", operacao, " ", num2, " = ", resultado)
+      fimse
+
+      // Pergunta se o usu√°rio deseja continuar
+      escreval
+      escreval("Deseja realizar outra opera√ß√£o? (S/N)")
+      leia(continuar)
+
+   // Condi√ß√£o de parada do loop (converte para mai√∫scula para aceitar 's' ou 'S')
+   ate (maiusc(continuar) = "N")
+
+   // Mensagem de despedida
+   limpatela()
+   escreval("Obrigado por usar a calculadora. Fim do programa.")
+
 fimalgoritmo
